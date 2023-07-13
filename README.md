@@ -21,6 +21,9 @@ This project contains source code and supporting files for a serverless applicat
 ## Running
 
 1 - curl -H "Content-type: application/json" -X GET http://127.0.0.1:3000/bookings
+
 2 - curl -H "Content-type: application/json" -X GET http://127.0.0.1:3000/flights
+
 3 - curl -H "Content-type: application/json" -X GET http://127.0.0.1:3000/flights/{flight_id}
+
 4 - curl -H "Content-type: application/json" -X PUT -d '{"x":"a"}' 'http://127.0.0.1:3000/bookings'
