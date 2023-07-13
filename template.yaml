@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  rafa-workshop
+
+  Sample SAM Template for rafa-workshop
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3 # Can move this to the function configuration
+
+Resources:
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+        StageName: dev
+
+  ListFlighsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: workshop/
+      Handler: list_flights.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+      Events:
+        ListFlights:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /flights
+            Method: GET
+
+  GetFlightsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: workshop/
+      Handler: get_flight.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+      Events:
+        GetFlights:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /flights/{flight_id}
+            Method: GET
+    
+  PutBookingsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: workshop/
+      Handler: put_booking.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+      Events:
+        PutBooking:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /bookings
+            Method: PUT
+
+  ListBookingsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: workshop/
+      Handler: list_bookings.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+      Events:
+        ListBooking:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /bookings
+            Method: GET
